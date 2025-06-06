@@ -19,4 +19,6 @@ response = client.models.generate_content(model="gemini-2.0-flash-001",
 
 print(response.text)
 
-print(f'Prompt tokens: {math.ceil(len(prompt) / 4.0)}')
+if response.usage_metadata is not None:
+    print(f'Prompt tokens: {response.usage_metadata.prompt_token_count}')
+    print(f'Response tokens: {response.usage_metadata.candidates_token_count}')
