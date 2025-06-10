@@ -1,13 +1,6 @@
 import os
 from pathlib import Path
-
-
-def isLocal(full_path, working_directory):
-    try:
-        full_path.relative_to(working_directory)
-    except ValueError:
-        return False
-    return True
+from functions.islocal import isLocal
 
 
 def get_files_info(working_directory, directory=None):
@@ -18,14 +11,15 @@ def get_files_info(working_directory, directory=None):
     if type(directory) is not str:
         return f'Error: "{directory}" is not a string.'
 
-    working_path = Path(os.path.abspath(working_directory)).resolve()
-    full_path = Path(working_path).joinpath(directory).resolve()
-
-    if not full_path.is_dir():
-        return f'Error: "{directory}" is not a directory'
-
-    if not isLocal(full_path, working_path):
+    full_path, path_is_valid = isLocal(working_directory, directory)
+    if not path_is_valid:
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
+
+    if full_path is None:
+        return 'Error: This error should literally never happen'
+
+    if not os.path.isdir(full_path):
+        return f'Error: "{directory}" is not a directory'
 
     files = os.listdir(full_path)
 
@@ -42,7 +36,7 @@ def get_files_info(working_directory, directory=None):
             return result
         try:
             is_dir = os.path.isdir(full_file)
-        except Exception as e:
+        except Exception:
             is_dir = False
 
         result += f' - {file}: file_size:{size} bytes, is_dir={is_dir}\n'
