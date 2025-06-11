@@ -19,7 +19,8 @@ def write_file(working_directory, filename, data):
             return f'Error: {e}'
 
     try:
-        file = os.open(full_path, os.O_CREAT | os.O_WRONLY)
+        file = os.open(full_path, os.O_CREAT | os.O_WRONLY |
+                       os.O_TRUNC | os.O_TRUNC)
     except Exception as e:
         return f'Error: {e}'
 
