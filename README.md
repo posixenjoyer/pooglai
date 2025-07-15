@@ -21,6 +21,7 @@ or
 
 ## Usage:
 `python pooglai.py <prompt> [--verbose]`
+(Actually you shouldn't use this at all.  Lane said so)
 
 ## Author(s)
 [posixenjoyer/Jonathan Bowie j@jtbowie.dev](mailto:j@jtbowie.dev)
